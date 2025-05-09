@@ -56,6 +56,7 @@ describe("Mappter Utils", () => {
       expect(result).toBeNull();
       expect(console.error).toHaveBeenCalledWith(
         expect.stringContaining("Missing mapping for ID"),
+        expect.anything(),
       );
     });
     it("should handle errors during mapping", () => {

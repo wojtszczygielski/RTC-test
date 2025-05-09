@@ -6,6 +6,7 @@ import {
   SportEvent,
   SportEventStatus,
 } from "../models/event";
+import { logger } from "./logger";
 
 const SCORE_PERIOD_TYPES: ScorePeriodType[] = [
   "CURRENT",
@@ -33,7 +34,7 @@ export function mapToSportEvent(
       competitors: mapCompetitors(rawEvent, mappings),
     };
   } catch (error) {
-    console.error("Error mapping raw event to sport event", error);
+    logger.error("Error mapping raw event to sport event", error);
     return null;
   }
 }
@@ -52,7 +53,7 @@ function hasAllRequiredMappings(
 
   for (const id of requiredIds) {
     if (!mappings[id]) {
-      console.error(`Missing mapping for ID: ${id}`);
+      logger.error(`Missing mapping for ID: ${id}`);
       return false;
     }
   }
@@ -92,9 +93,7 @@ function mapScores(
   for (const period of scorePeriods) {
     const mappedType = mappings[period.periodTypeId];
     if (!mappedType) {
-      console.warn(
-        `Missing mapping for period type ID: ${period.periodTypeId}`,
-      );
+      logger.warn(`Missing mapping for period type ID: ${period.periodTypeId}`);
       continue;
     }
 
@@ -105,7 +104,7 @@ function mapScores(
         away: period.awayScore,
       };
     } else {
-      console.warn(`Mapped period type "${mappedType}" is not valid`);
+      logger.warn(`Mapped period type "${mappedType}" is not valid`);
     }
   }
 
