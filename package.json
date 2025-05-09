@@ -4,9 +4,12 @@
   "description": "SR",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
     "build": "tsc --project tsconfig.build.json",
-    "test": "vitest run --coverage"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "author": "SR",
   "license": "MIT",
