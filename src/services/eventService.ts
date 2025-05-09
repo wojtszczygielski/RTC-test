@@ -59,13 +59,11 @@ export class EventService {
     try {
       const mappingsData = await this.simulationService.getMappings();
       const eventData = await this.simulationService.getState();
-
       const newMappings = parseMappings(mappingsData);
-      const rawEvents = eventData;
 
       this.state.mappings = newMappings;
 
-      this.updateEvents(rawEvents);
+      this.updateEvents(eventData);
     } catch (error) {
       logger.error("Error updating state", error);
     }
