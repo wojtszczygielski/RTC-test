@@ -8,11 +8,6 @@ services:
       - "3000:3000"
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "3000"]
-      interval: 2s
-      timeout: 5s
-      retries: 10
 
   app:
     build:
@@ -22,8 +17,7 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      simulation:
-        condition: service_healthy
+      - simulation
     environment:
       - PORT=3001
       - SIMULATION_HOST=simulation
@@ -33,6 +27,7 @@ services:
       - /app/node_modules
     networks:
       - app-network
+    command: ["/wait-for.sh", "simulation", "3000", "npm", "start"]
 
 networks:
   app-network:
