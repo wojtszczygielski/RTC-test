@@ -21,11 +21,6 @@ export const SportEventStatusObj = {
   REMOVED: "REMOVED",
 } as const;
 
-export const CompetitorType = {
-  HOME: "HOME",
-  AWAY: "AWAY",
-} as const;
-
 export type SportEventStatus = keyof typeof SportEventStatusObj;
 
 export interface Competitor {
