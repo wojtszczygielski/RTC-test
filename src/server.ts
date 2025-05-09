@@ -13,22 +13,16 @@ const server = app.listen(config.port, () => {
   eventService.startPolling();
 });
 
-process.on("SIGTERM", () => {
-  logger.info("SIGTERM received, shutting down gracefully");
+const gracefulShutdown = (signal: string) => {
+  logger.info(`${signal} received, shutting down gracefully`);
   eventService.stopPolling();
   server.close(() => {
     logger.info("Server closed");
     process.exit(0);
   });
-});
+};
 
-process.on("SIGINT", () => {
-  logger.info("SIGINT received, shutting down gracefully");
-  eventService.stopPolling();
-  server.close(() => {
-    logger.info("Server closed");
-    process.exit(0);
-  });
-});
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
 export default server;
